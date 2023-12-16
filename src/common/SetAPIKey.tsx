@@ -1,4 +1,4 @@
-import { Button, Input, VStack, Text, Link, HStack } from '@chakra-ui/react';
+import { Button, Input, VStack, HStack } from '@chakra-ui/react';
 import React from 'react';
 import { useAppState } from '../state/store';
 
@@ -12,22 +12,6 @@ const ModelDropdown = () => {
 
   return (
     <VStack spacing={4}>
-      <Text fontSize="sm">
-        You'll need an OpenAI API Key to run the Taxy in developer mode. If you
-        don't already have one available, you can create one in your{' '}
-        <Link
-          href="https://platform.openai.com/account/api-keys"
-          color="blue"
-          isExternal
-        >
-          OpenAI account
-        </Link>
-        .
-        <br />
-        <br />
-        Taxy stores your API key locally and securely, and it is only used to
-        communicate with the OpenAI API.
-      </Text>
       <HStack w="full">
         <Input
           placeholder="OpenAI API Key"

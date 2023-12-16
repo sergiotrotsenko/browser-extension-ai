@@ -38,6 +38,7 @@ export type CurrentTaskSlice = {
     | 'waiting';
   actions: {
     runTask: (onError: (error: string) => void) => Promise<void>;
+    addDebugger: () => Promise<void>;
     interrupt: () => void;
   };
 };
@@ -80,7 +81,7 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
         set((state) => {
           state.currentTask.tabId = tabId;
         });
-
+// temporary hide debugger
         await attachDebugger(tabId);
         await disableIncompatibleExtensions();
 
@@ -182,6 +183,25 @@ export const createCurrentTaskSlice: MyStateCreator<CurrentTaskSlice> = (
       } finally {
         await detachDebugger(get().currentTask.tabId);
         await reenableExtensions();
+      }
+    },
+    addDebugger: async () => {
+      try {
+        const activeTab = (
+          await chrome.tabs.query({ active: true, currentWindow: true })
+        )[0];
+
+        if (!activeTab.id) throw new Error('No active tab found');
+        const tabId = activeTab.id;
+        // set((state) => {
+        //   state.currentTask.tabId = tabId;
+        // });
+
+        await attachDebugger(tabId);
+        await disableIncompatibleExtensions();
+      } catch (e: any) {
+        // await detachDebugger(get().currentTask.tabId);
+        // await reenableExtensions();
       }
     },
     interrupt: () => {

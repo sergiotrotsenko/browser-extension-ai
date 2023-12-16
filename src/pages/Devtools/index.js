@@ -1,1 +1,1 @@
-chrome.devtools.panels.create('Taxy AI', 'icon-34.png', 'panel.html');
+chrome.devtools.panels.create('Dopple Flow', 'icon-34.png', 'panel.html');

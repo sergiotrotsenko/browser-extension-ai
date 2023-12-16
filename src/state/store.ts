@@ -35,6 +35,7 @@ export const useAppState = create<StoreType>()(
         // Stuff we want to persist
         ui: {
           instructions: state.ui.instructions,
+          recording: state.ui.recording,
         },
         settings: {
           openAIKey: state.settings.openAIKey,

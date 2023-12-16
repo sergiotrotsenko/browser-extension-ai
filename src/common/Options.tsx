@@ -1,10 +1,12 @@
-import { HStack, Spacer, useToast } from '@chakra-ui/react';
+import { HStack, Textarea, useToast } from '@chakra-ui/react';
 import React, { useCallback } from 'react';
+import { debugMode } from '../constants';
 import { useAppState } from '../state/store';
-import RunTaskButton from './RunTaskButton';
-import RecordButton from './RecordButton';
-import ShareButton from './ShareButton';
-import Options from './Options';
+import TaskHistory from './TaskHistory';
+import TaskStatus from './TaskStatus';
+import ModelDropdown from './ModelDropdown';
+import OptionsDropdown from './OptionsDropdown';
+import SetAPIKey from './SetAPIKey';
 // import { BsOptions } from 'react-icons/bs';
 
 const TaskUI = () => {
@@ -12,12 +14,9 @@ const TaskUI = () => {
     taskHistory: state.currentTask.history,
     taskStatus: state.currentTask.status,
     runTask: state.currentTask.actions.runTask,
-    addDebugger: state.currentTask.actions.addDebugger,
     instructions: state.ui.instructions,
     setInstructions: state.ui.actions.setInstructions,
   }));
-
-  // state.addDebugger();
 
   const taskInProgress = state.taskStatus === 'running';
 
@@ -50,19 +49,30 @@ const TaskUI = () => {
 
   return (
     <>
-      <HStack>
-        <RecordButton runTask={runTask} />
-        <RunTaskButton runTask={runTask} />
-        <ShareButton />
-        <input
-          type="checkbox"
-          checked={showSettings}
-          onChange={() => setShowSettings(!showSettings)}
-        ></input>
-        {showSettings}
-        <Spacer />
+      {/* <HStack w="full"> */}
+      <HStack mt="2" w="full">
+        <Textarea
+          autoFocus
+          placeholder="Taxy uses OpenAI's GPT-4 API to perform actions on the current page. Try telling it to sign up for a newsletter, or to add an item to your cart."
+          value={state.instructions || ''}
+          disabled={taskInProgress}
+          onChange={(e) => state.setInstructions(e.target.value)}
+          mb={2}
+          onKeyDown={onKeyDown}
+        />
       </HStack>
-      {showSettings && <Options></Options>}
+      <HStack mt="2" w="full">
+        {debugMode && <TaskStatus />}
+        <ModelDropdown />
+      </HStack>
+      <HStack mt="2" w="full">
+        <OptionsDropdown />
+        <SetAPIKey />
+      </HStack>
+      <HStack mt="2" w="full">
+        <TaskHistory />
+      </HStack>
+      {/* </HStack> */}
     </>
   );
 };

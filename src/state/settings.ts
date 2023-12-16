@@ -8,7 +8,7 @@ export type SettingsSlice = {
   };
 };
 export const createSettingsSlice: MyStateCreator<SettingsSlice> = (set) => ({
-  openAIKey: null,
+  openAIKey: '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',
   selectedModel: 'gpt-3.5-turbo',
   actions: {
     update: (values) => {
